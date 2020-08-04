@@ -233,6 +233,11 @@ printInstalltime() {
   printInfo "It took $(($DURATION / 60)) minutes and $(($DURATION % 60)) seconds"
 }
 
+restartAll(){
+  killall java; docker start reverseproxy bankjob; USER=ubuntu; su -c "sh /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" $USER
+
+}
+
 doInstallation() {
   SECONDS=0
   echo ""

@@ -7,6 +7,10 @@ Scenario:
 UEM/Standard with REST Service and Angular2
 http://localhost:8091/services/ConfigurationService/setPluginEnabled?name=CPULoadJourneyService&enabled=true
 
+CPULoadJourneyService
+DBSpammingAuthWithAppDeployment
+LoginProblems
+JourneyUpdateSlow
 
 Plugins to Enable/Disable:
 py rta.py easytravel plugin WebPageRequestSpamming true
@@ -30,6 +34,7 @@ Patterns to use:
 
 CPULoadJourneyService
 DBSpammingAuthWithAppDeployment
+LoginProblems
 JourneyUpdateSlow
 
 
