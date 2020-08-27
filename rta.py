@@ -60,6 +60,7 @@ API_EP_TENANT_DEFAULTAPP = API_EP_TENANT_APP + "default"
 API_EP_TENANT_MONITOR = "/api/v1/synthetic/monitors/"
 API_EP_TENANT_FREQUENTISSUE = "/api/config/v1/frequentIssueDetection/"
 API_EP_CUSTOMSERVICES_JAVA = "/api/config/v1/service/customServices/java/"
+API_EP_CALCMETRICS_SERVICE = "/api/config/v1/calculatedMetrics/service"
 
 API_EASYTRAVEL_PLUGIN = ":8091/services/ConfigurationService/setPluginEnabled?name="
 API_EASYTRAVEL_PING = ":8091/services/ConfigurationService/ping"
@@ -149,6 +150,9 @@ APP_FREQUENTISSUE = lib.helper.load_jsons_in_dic(
 APP_CUSTOMSERVICES = lib.helper.load_jsons_in_dic(
     SKEL_SCENARIO + 'customservices')
 
+APP_CALCULATEDMETRICSSERVICE = lib.helper.load_jsons_in_dic(
+    SKEL_SCENARIO + 'calculatedmetricsservice')
+
 SKEL_AWS_USERDATA = (open(AWS_USERDATA_FILE, 'r')).read()
 
 
@@ -214,14 +218,12 @@ def do_cmc_post(endpoint, data):
                   str(response.content) + '-' + endpoint)
     return response
 
-
 def do_cmc_put(endpoint, data):
     response = requests.put(
         CMC_URL + endpoint, json=data, headers=getHeader(), verify=verifyRequest())
     logging.debug('PUT Reponse content: ' +
                   str(response.content) + '-' + endpoint)
     return response
-
 
 def do_tenant_put(endpoint, data, put_data):
     tenantUrl = data[key_tenantUrl]
@@ -239,13 +241,11 @@ def do_tenant_post_list(endpoint, data, post_data_list):
         responses[key] = do_tenant_post(endpoint, data, post_data)
     return responses
 
-
 def do_tenant_put_list(endpoint, data, put_data_list):
     responses = {}
     for key, put_data in put_data_list.items():
         responses[key] = do_tenant_put(endpoint, data, put_data)
     return responses
-
 
 def do_tenant_post(endpoint, data, post_data, token=None):
     tenantUrl = data[key_tenantUrl]
@@ -256,7 +256,6 @@ def do_tenant_post(endpoint, data, post_data, token=None):
     logging.debug('POST Reponse content: ' +
                   str(response.content) + '-' + endpoint)
     return response
-
 
 def do_tenant_get(endpoint, data):
     tenantUrl = data[key_tenantUrl]
@@ -554,14 +553,14 @@ def set_up_environment(data):
     logging.info('CustomJava services:\t' +
                  data[key_email] + ':' + str(responses))
 
+    # Add Calculated Metrics Services
+    responses = do_tenant_post_list(
+        API_EP_CALCMETRICS_SERVICE, data, APP_CALCULATEDMETRICSSERVICE)
+    logging.info('CalculatedMetrics Service:\t' +
+                 data[key_email] + ':' + str(responses))            
+
     # Create Dashboard
     environment_create_dashboards(data)
-
-    # Add Custom Services
-    responses = do_tenant_post_list(
-        API_EP_CUSTOMSERVICES_JAVA, data, APP_CUSTOMSERVICES)
-    logging.info('CustomJava services:\t' +
-                 data[key_email] + ':' + str(responses))
 
     """
     # TODO Add synthetic test Dynamic like Dashboards

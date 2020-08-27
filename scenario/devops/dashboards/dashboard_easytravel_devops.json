@@ -1,0 +1,1249 @@
+{
+  "dashboardMetadata": {
+      "name": "CI/CD & Automatic QualityGates with Dynatrace and Keptn for Easytravel",
+      "shared": false,
+      "sharingDetails": {
+          "linkShared": true,
+          "published": true
+      },
+      "dashboardFilter": {
+          "timeframe": "-1h"
+      },
+      "tags": [
+          "Keptn",
+          "DevOps",
+          "CICD"
+      ]
+  },
+  "tiles": [
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 0,
+              "left": 0,
+              "width": 798,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "[🎁 KeptnInABox](https://18-132-68-64.nip.io/)  -   [🥽 Jenkins Pipeline](https://jenkins.18-132-68-64.nip.io/blue/organizations/jenkins/easytravel-continuous-deployment/)  -  [🌉 Keptn Bridge](https://keptn.18-132-68-64.nip.io/bridge/project/easytravel) \n- [Jenkins GitOps](https://github.com/sergiohinojosa/easytravel-sre)\n- [🏎  Performance as a Service](https://jenkins.18-132-68-64.nip.io/view/Performance%20as%20a%20Service%20(Keptn%20sample%20pipelines)%20/) - [👱‍♀️ Davis Assistant](https://assistant.dynatrace.com)"
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 494,
+              "left": 1064,
+              "width": 228,
+              "height": 266
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Throughput of services ",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:service.response.time",
+                          "aggregation": "COUNT",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 494,
+              "left": 1520,
+              "width": 228,
+              "height": 266
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "❗️Most failing services",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:service.errors.total.rate",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 494,
+              "left": 836,
+              "width": 228,
+              "height": 266
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Service outlier transactions (max)",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:service.response.time",
+                          "aggregation": "MAX",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 456,
+              "left": 836,
+              "width": 456,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "[🐢 TX > 10 Sec](#topglobalwebrequests;servicefilter=0%1E0%1110000000%144611686018427387) - [🐌 >30 Sec](#topglobalwebrequests;servicefilter=0%1E0%1130000000%144611686018427387) - [Top SQL Statements](#topdbstatements;gtf=l_2_HOURS;gf=all) "
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 228,
+              "left": 836,
+              "width": 456,
+              "height": 228
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Request count vs 95th percentile",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:service.response.time",
+                          "aggregation": "PERCENTILE",
+                          "percentile": 95,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:service.response.time",
+                          "aggregation": "COUNT",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 228,
+              "left": 1292,
+              "width": 456,
+              "height": 228
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "HTTP [4|5xx] and failed transactions",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:service.errors.fourxx.count",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:service.errors.fivexx.count",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:service.errors.total.count",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Custom chart",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 494,
+              "left": 1292,
+              "width": 228,
+              "height": 266
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Database calls per Service",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:service.dbChildCallCount",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.service",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 456,
+              "left": 1292,
+              "width": 456,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "[❗Failed requests](#topglobalwebrequests;servicefilter=0%1E3%110) \n - [❗HTTP 4XX](#topglobalwebrequests;servicefilter=0%1E2%11400-499) - [❗HTTP 5XX](#topglobalwebrequests;servicefilter=0%1E2%11500-599) - [⚡️failed exceptions](#exceptionsoverview;servicefilter=0%1E3%110)"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 190,
+              "left": 836,
+              "width": 456,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "###Easytravel -  Performance Engineering Overview "
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 190,
+              "left": 1292,
+              "width": 266,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "###[🔬 Developer Diagnostic Tools](/ui/diagnostictools/analytics)"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 76,
+              "left": 0,
+              "width": 608,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "###Easytravel Services - 🚪Automatic QualityGates"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 0,
+              "width": 608,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "[✈️ Easytravel Classic](http://35-178-182-216.nip.io:8080)  -   [✈️ Easytravel Angular](http://35-178-182-216.nip.io)\n- [👨‍💻 EasyTravel Admin](http://35-178-182-216.nip.io:8094)"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 266,
+              "left": 418,
+              "width": 380,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "**[🎯Easytravel frontend-classic](#newservices/serviceOverview;id=SERVICE-E22DD4EB63BD517B;)** - \n[➡️LoadTest-Flow](#serviceflow;sci=SERVICE-E22DD4EB63BD517B;timeframe=custom1596191052087to1596194652087;gf=-1875896581415708352;mode=RESPONSE_TIME;servicefilter=0%1E15%1134821ea8-f56c-4c54-94f6-f52239a6b1e7%14%140%14%14%14%14)"
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 114,
+              "left": 152,
+              "width": 456,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Loadtests via JMeterService on Keptn [rt] - Booking Test",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "calc:service.rt_load_easytravel",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 76,
+              "left": 608,
+              "width": 190,
+              "height": 76
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "- None\n- [CPULoadJourneyService](#serviceComparison;serviceId=SERVICE-E22DD4EB63BD517B;timeframe=custom1596027600000to1596031200000;servicefilter=0%1E10%11SERVICE_METHOD_GROUP-BC501522409788C2%1015%111daf9ed3-aff7-467a-9774-79f33f8137fa%14%140%14%14%14%14;gf=all;tfshift=CustomTimeframe;ctfstart=1596024000000)\n- [DBSpammingAuthWithAppDeployment](#serviceComparison;serviceId=SERVICE-E22DD4EB63BD517B;timeframe=custom1596031200000to1596034800000;servicefilter=0%1E10%11SERVICE_METHOD_GROUP-BC501522409788C2%1015%111daf9ed3-aff7-467a-9774-79f33f8137fa%14%140%14%14%14%14;gf=all;tfshift=CustomTimeframe;ctfstart=1596024000000)\n"
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 608,
+              "left": 266,
+              "width": 266,
+              "height": 342
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Responsetime by functional step (max)",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "calc:service.responsetimetestbookingsteps",
+                          "aggregation": "MAX",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": true,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 608,
+              "left": 0,
+              "width": 266,
+              "height": 342
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Responsetime by functional step (avg)",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "calc:service.responsetimetestbookingsteps",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": true,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 304,
+              "left": 0,
+              "width": 798,
+              "height": 266
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Easytravel - Teststeps Responsetime average by step ",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "calc:service.responsetimetestbookingsteps",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 608,
+              "left": 532,
+              "width": 266,
+              "height": 342
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Exceptions by functional step",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "calc:service.exceptioncountbytestbooking",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Service health",
+          "tileType": "SERVICES",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 1596,
+              "width": 152,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": null,
+          "chartVisible": true
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 0,
+              "left": 836,
+              "width": 912,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "###🤖Easytravel Functional Tests & Availability - Full Booking Procedure and REST Validation"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 266,
+              "left": 0,
+              "width": 418,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "###🧪Easytravel - Loadtest and  Teststeps"
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 114,
+              "left": 0,
+              "width": 152,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Loadtests via JMeterService on Keptn [rt] - Booking Test",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "SINGLE_VALUE",
+                  "series": [
+                      {
+                          "metric": "calc:service.rt_load_easytravel",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SERVICE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Dimension",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "Synthetic monitor health",
+          "tileType": "SYNTHETIC_TESTS",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 1444,
+              "width": 152,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": null,
+          "chartVisible": true
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 836,
+              "width": 190,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Full Booking Process ",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:synthetic.browser.availability.location.total",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SYNTHETIC_BROWSER_MONITOR",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "dt.entity.geolocation",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {
+                  "SYNTHETIC_BROWSER_MONITOR": {
+                      "SPECIFIC_ENTITIES": [
+                          "SYNTHETIC_TEST-54CAFCDC7A226823"
+                      ]
+                  }
+              }
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 1026,
+              "width": 190,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "REST Login validation ",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TOP_LIST",
+                  "series": [
+                      {
+                          "metric": "builtin:synthetic.http.availability.location.total",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SYNTHETIC_HTTPCHECK",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "dt.entity.synthetic_location",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:synthetic.browser.availability.location.total",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "LINE",
+                          "entityType": "SYNTHETIC_BROWSER_MONITOR",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.synthetic_test",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {
+                  "SYNTHETIC_HTTPCHECK": {
+                      "SPECIFIC_ENTITIES": [
+                          "HTTP_CHECK-B1B2742B311EA4A3"
+                      ]
+                  }
+              }
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 1216,
+              "width": 228,
+              "height": 152
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Browser and HTTP Monitors availability",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:synthetic.http.availability.location.total",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SYNTHETIC_HTTPCHECK",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.http_check",
+                                  "values": [],
+                                  "entityDimension": true
+                              },
+                              {
+                                  "id": "1",
+                                  "name": "dt.entity.synthetic_location",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:synthetic.browser.availability.location.total",
+                          "aggregation": "AVG",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "SYNTHETIC_BROWSER_MONITOR",
+                          "dimensions": [
+                              {
+                                  "id": "0",
+                                  "name": "dt.entity.synthetic_test",
+                                  "values": [],
+                                  "entityDimension": true
+                              },
+                              {
+                                  "id": "1",
+                                  "name": "dt.entity.geolocation",
+                                  "values": [],
+                                  "entityDimension": true
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {
+                  "SYNTHETIC_HTTPCHECK": {
+                      "SPECIFIC_ENTITIES": [
+                          "HTTP_CHECK-B1B2742B311EA4A3"
+                      ]
+                  },
+                  "SYNTHETIC_BROWSER_MONITOR": {
+                      "SPECIFIC_ENTITIES": [
+                          "SYNTHETIC_TEST-54CAFCDC7A226823"
+                      ]
+                  }
+              }
+          }
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 38,
+              "left": 608,
+              "width": 190,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "Deployed Problempatterns"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 570,
+              "left": 0,
+              "width": 798,
+              "height": 38
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "####Easytravel - Responsetime and Exceptions breakdown by JMeter Sessionbased Loadtest Steps"
+      },
+      {
+          "name": "Markdown",
+          "tileType": "MARKDOWN",
+          "configured": true,
+          "bounds": {
+              "top": 152,
+              "left": 608,
+              "width": 190,
+              "height": 114
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "markdown": "- LoginProblems\n- [JourneyUpdateSlow](#serviceComparison;serviceId=SERVICE-E22DD4EB63BD517B;timeframe=custom1595952000000to1595955540000;servicefilter=0%1E10%11SERVICE_METHOD_GROUP-BC501522409788C2%1015%111daf9ed3-aff7-467a-9774-79f33f8137fa%14%140%14%14%14%14;gf=all;tfshift=CustomTimeframe;ctfstart=1595937600000)\n- [CreditCardCheckError500](#serviceComparison;serviceId=SERVICE-E22DD4EB63BD517B;timeframe=custom1597316400000to1597320000000;servicefilter=0%1E10%11SERVICE_METHOD_GROUP-BC501522409788C2%1015%1134821ea8-f56c-4c54-94f6-f52239a6b1e7%14%140%14%14%14%14;gf=-1875896581415708352;tfshift=CustomTimeframe;ctfstart=1597233600000)"
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 760,
+              "left": 1140,
+              "width": 304,
+              "height": 228
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Process memory allocation bytes API",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:tech.jvm.memory.memAllocationBytes",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "PROCESS_GROUP_INSTANCE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "API",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 760,
+              "left": 1444,
+              "width": 304,
+              "height": 228
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "Process memory allocation/survived objects count API",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:tech.jvm.memory.memAllocationCount",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "AREA",
+                          "entityType": "PROCESS_GROUP_INSTANCE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "API",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": false,
+                          "aggregationRate": "TOTAL"
+                      },
+                      {
+                          "metric": "builtin:tech.jvm.memory.memSurvivorsCount",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "BAR",
+                          "entityType": "PROCESS_GROUP_INSTANCE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "API",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      },
+      {
+          "name": "",
+          "tileType": "CUSTOM_CHARTING",
+          "configured": true,
+          "bounds": {
+              "top": 760,
+              "left": 836,
+              "width": 304,
+              "height": 228
+          },
+          "tileFilter": {
+              "timeframe": null,
+              "managementZone": null
+          },
+          "filterConfig": {
+              "type": "MIXED",
+              "customName": "JVM total CPU time by ThreadGroup",
+              "defaultName": "Custom chart",
+              "chartConfig": {
+                  "legendShown": true,
+                  "type": "TIMESERIES",
+                  "series": [
+                      {
+                          "metric": "builtin:tech.jvm.threads.totalCpuTime",
+                          "aggregation": "NONE",
+                          "percentile": null,
+                          "type": "AREA",
+                          "entityType": "PROCESS_GROUP_INSTANCE",
+                          "dimensions": [
+                              {
+                                  "id": "1",
+                                  "name": "Thread group",
+                                  "values": [],
+                                  "entityDimension": false
+                              }
+                          ],
+                          "sortAscending": false,
+                          "sortColumn": true,
+                          "aggregationRate": "TOTAL"
+                      }
+                  ],
+                  "resultMetadata": {}
+              },
+              "filtersPerEntityType": {}
+          }
+      }
+  ]
+}
