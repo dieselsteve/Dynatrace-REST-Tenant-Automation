@@ -1,7 +1,7 @@
 {
     "dashboardMetadata": {
         "name": "Hello firstName.key lastName.key! Welcome to the Dynatrace for Dev and DevOps Workshop!",
-        "shared": false,
+        "shared": true,
         "sharingDetails": {
             "linkShared": true,
             "published": true

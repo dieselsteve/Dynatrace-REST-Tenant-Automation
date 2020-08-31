@@ -1,10 +1,10 @@
 {
     "dashboardMetadata": {
         "name": "KQG;project=performance;service=evalservice;stage=performancestage",
-        "shared": false,
+        "shared": true,
         "sharingDetails": {
             "linkShared": true,
-            "published": false
+            "published": true
         },
         "dashboardFilter": {
             "timeframe": "",
