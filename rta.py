@@ -541,6 +541,9 @@ def set_up_environment(data):
     logging.info('Management zones:\t' +
                  data[key_email] + ':' + str(responses))
 
+    # Save the MZ ids with the filename as key
+    store_ids(data, responses)
+
     # Remove frequent Issue
     responses = do_tenant_put_list(
         API_EP_TENANT_FREQUENTISSUE, data, APP_FREQUENTISSUE)
@@ -1179,12 +1182,16 @@ def do_dev():
         responses = do_tenant_post_list(
             API_EP_CALCMETRICS_SERVICE, data, APP_CALCULATEDMETRICSSERVICE)
         logging.info('CalculatedMetrics Service:\t' +
-                    data[key_email] + ':' + str(responses))  
+                    data[key_email] + ':' + str(responses)) 
 
     logging.info(
             "\nDEV Function, creating Calculated Metrics. Done...")
     return True        
     
+def store_ids(data, responses):
+    for key, response in responses.items():
+        data[key] = str(json.loads(response.text)['id'])
+    return
 
 def do_validate():
     """

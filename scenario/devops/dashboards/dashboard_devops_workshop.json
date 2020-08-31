@@ -1021,6 +1021,22 @@
                 "managementZone": null
             },
             "markdown": "### 📚Documentation [SLI](https://keptn.sh/docs/0.7.x/quality_gates/sli/) [SLO](https://keptn.sh/docs/0.7.x/quality_gates/slo/)"
+        },
+        {
+            "name": "Markdown",
+            "tileType": "MARKDOWN",
+            "configured": true,
+            "bounds": {
+                "top": 76,
+                "left": 836,
+                "width": 608,
+                "height": 38
+            },
+            "tileFilter": {
+                "timeframe": null,
+                "managementZone": null
+            },
+            "markdown": "[🎡Kubernetes Cluster Health](/ui/kubernetes/)"
         }
     ]
 }
