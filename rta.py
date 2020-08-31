@@ -1060,6 +1060,8 @@ def action_easytravel():
     return save_results
 
 
+
+
 def action_create():
     """
     Function where the different create actions will be executed.
@@ -1165,34 +1167,24 @@ def save_results(file):
 
 
 def do_dev():
-
-    #data = CSV_DATA['certiticate']
-    # set_up_environment(data)
-    # create_ec2_instance(data)
-    # test_ssl_connection(data)
-
-    # return
-
-    # Iteration
+    # Iterate over all CSV 
+    logging.info(
+            "\nDEV Function, creating Calculated Metrics")
     for id in CSV_DATA:
         data = CSV_DATA[id]
-        # if skip_in_data(data):
-        #    continue
-        # do something
-        test_ssl_connection(data)
+        # If skip is declared, we go to the next row
+        if skip_in_data(data):
+            continue
+        # Add Calculated Metrics Services
+        responses = do_tenant_post_list(
+            API_EP_CALCMETRICS_SERVICE, data, APP_CALCULATEDMETRICSSERVICE)
+        logging.info('CalculatedMetrics Service:\t' +
+                    data[key_email] + ':' + str(responses))  
 
-    return
-    data = CSV_DATA['sergio@dynatrace.com']
-
-    cmds = []
-    cmds.append(['whoami', False])
-    cmds.append(['whoami', True])
-    cmds.append(['ls', False])
-    cmds.append(['pwd', False])
-    cmds.append(['docker ps -a', False])
-    execute_ssh_command(data, cmds)
-    return
-
+    logging.info(
+            "\nDEV Function, creating Calculated Metrics. Done...")
+    return True        
+    
 
 def do_validate():
     """
