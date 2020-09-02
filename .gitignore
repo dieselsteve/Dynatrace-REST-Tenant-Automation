@@ -7,8 +7,6 @@ env*
 *-*
 *-*/*
 *mine*
-# Dont add test files
-*test*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

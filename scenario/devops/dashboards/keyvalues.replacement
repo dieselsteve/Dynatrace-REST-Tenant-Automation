@@ -3,8 +3,7 @@
   "lastName.key": "lastName",
   "nipioDomain.key": "nipioDomain",
   "sshUser.placeholder": "dynatrace",
-  "sshPassword.placeholder": "dynatrace",
-  "master.placeholder": "https://keptn-rocks.collaborationurl/p/acm",
-  "livehelp.placeholder": "https://keptn-rocks.collaborationurl/p/acm",
-  "collaboration.placeholder": "http://livehelp.teacher-ip.nip.io/p/k8deepdive"
+  "sshPassword.placeholder": "secr3t",
+  "master.placeholder": "18-134-13-24.nip.io",
+  "mz-evalservice.key": "mz_evalservice"
 }

@@ -1,0 +1,48 @@
+{
+    "tsmMetricKey": "calc:service.testrequestsbyhttpstatus",
+    "name": "Test Requests by HTTP Status",
+    "enabled": true,
+    "metricDefinition": {
+        "metric": "REQUEST_COUNT",
+        "requestAttribute": null
+    },
+    "unit": "COUNT",
+    "unitDisplayName": "",
+    "entityId": null,
+    "managementZones": [],
+    "conditions": [
+        {
+            "attribute": "SERVICE_REQUEST_ATTRIBUTE",
+            "comparisonInfo": {
+                "type": "STRING_REQUEST_ATTRIBUTE",
+                "comparison": "EXISTS",
+                "value": null,
+                "negate": false,
+                "requestAttribute": "TestStepName",
+                "caseSensitive": false,
+                "matchOnChildCalls": false,
+                "source": null
+            }
+        },
+        {
+            "attribute": "SERVICE_TAG",
+            "comparisonInfo": {
+                "type": "TAG",
+                "comparison": "TAG_KEY_EQUALS",
+                "value": {
+                    "context": "CONTEXTLESS",
+                    "key": "evalservice"
+                },
+                "negate": false
+            }
+        }
+    ],
+    "dimensionDefinition": {
+        "name": "HttpStatusClass",
+        "dimension": "{HTTP-StatusClass}",
+        "placeholders": [],
+        "topX": 10,
+        "topXDirection": "DESCENDING",
+        "topXAggregation": "SINGLE_VALUE"
+    }
+}
