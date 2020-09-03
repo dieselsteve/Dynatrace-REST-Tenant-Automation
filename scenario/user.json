@@ -3,6 +3,7 @@
 	"email": "",
 	"firstName": "",
 	"lastName": "",
+	"passwordClearText":"secr3t",
 	"groups": [
 		""
 	]

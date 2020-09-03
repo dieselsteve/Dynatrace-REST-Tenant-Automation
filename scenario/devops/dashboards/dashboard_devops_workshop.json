@@ -458,7 +458,7 @@
                 "timeframe": null,
                 "managementZone": null
             },
-            "markdown": "💻 SSH access: sshUser.placeholder@nipioDomain.key 🔑=sshPassword.placeholder"
+            "markdown": "💻 SSH access: sshUser.placeholder@nipioDomain.key 🔑 sshPassword.placeholder"
         },
         {
             "name": "",
