@@ -27,7 +27,7 @@ USER="ubuntu"
 # ---- Workshop User  ----
 # The flag 'create_workshop_user'=true is per default set to false. If it's set to to it'll clone the home directory from USER and allow SSH login with the given text password )
 NEWUSER="dynatrace"
-NEWPWD="dynatrace"
+NEWPWD="secr3t"
 
 ## ----  Write all output to the logfile ----
 if [ "$pipe_log" = true ]; then
@@ -101,7 +101,7 @@ validateSudo() {
 dynatracePrintValidateCredentials() {
   printInfoSection "Printing Dynatrace Credentials"
   if [ -n "${TENANT}" ]; then
-    printInfo "Shuffle the variables for name convention with Keptn & Dynatrace"
+    printInfo "Shuffle the variables for name convention with Dynatrace"
     PROTOCOL="https://"
     DT_TENANT=${TENANT#"$PROTOCOL"}
     printInfo "Cleaned tenant=$DT_TENANT"
@@ -168,22 +168,45 @@ createWorkshopUser() {
 
 installBankjobs() {
   printInfoSection "Pulling Bankjobs and running them"
-  docker run -d --name bankjob shinojosa/bankjob:perform2020
-  printInfoSection "Configuring reverse proxy‚"
-  export PUBLIC_IP=$(hostname -i | awk '{ print $1'})
+  docker run -d --name bankjob shinojosa/bankjob:perform2021
+
+}
+
+installReverseProxy(){
+  printInfoSection "Configuring reverse proxy"
   mkdir /home/$USER/nginx
   # 
   echo "upstream angular {
-  server	$PUBLIC_IP:9080;
-} 
+    server   172.17.0.1:9080;
+}
+upstream admin {
+    server   172.17.0.1:8094;
+}
+upstream classic {
+    server   172.17.0.1:8094;
+}
+
 server {
-  listen		0.0.0.0:80;
-  server_name	localhost;
-  location / {
-    proxy_pass	http://angular;
-    proxy_pass_request_headers  on;
+    listen		0.0.0.0:80;
+    server_name	localhost;
+
+    location / {
+      proxy_pass	http://angular/;
+      proxy_pass_request_headers  on;
     }
-}" >/home/$USER/nginx/angular.conf
+    location /classic/ {
+      proxy_pass	http://classic/;
+      proxy_pass_request_headers  on;
+    }
+    location /amp/ {
+      proxy_pass	http://classic/amp/;
+      proxy_pass_request_headers  on;
+    }
+      location /admin/ {
+      proxy_pass	http://admin/;
+      proxy_pass_request_headers  on;
+    }
+}" >/home/$USER/nginx/easytravel-proxy.conf
   docker run -p 80:80 -v /home/$USER/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
 }
 
@@ -247,11 +270,12 @@ doInstallation() {
 
   # Installation Modules
   dynatracePrintValidateCredentials
-
   utilsInstall
   installDynatrace
   installBankjobs
+  installReverseProxy
   installEasyTravel
+  createWorkshopUser
   printInstalltime
 }
 
