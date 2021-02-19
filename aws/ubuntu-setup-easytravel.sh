@@ -183,7 +183,7 @@ upstream admin {
     server   172.17.0.1:8094;
 }
 upstream classic {
-    server   172.17.0.1:8094;
+    server   172.17.0.1:8079;
 }
 
 server {
