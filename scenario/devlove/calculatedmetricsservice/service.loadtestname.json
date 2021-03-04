@@ -1,0 +1,48 @@
+{
+    "tsmMetricKey": "calc:service.loadtestname",
+    "name": "Load Testname ResponseTime",
+    "enabled": true,
+    "metricDefinition": {
+        "metric": "RESPONSE_TIME",
+        "requestAttribute": null
+    },
+    "unit": "MICRO_SECOND",
+    "unitDisplayName": null,
+    "entityId": null,
+    "managementZones": [],
+    "conditions": [
+        {
+            "attribute": "SERVICE_REQUEST_ATTRIBUTE",
+            "comparisonInfo": {
+                "type": "STRING_REQUEST_ATTRIBUTE",
+                "comparison": "EXISTS",
+                "value": null,
+                "negate": false,
+                "requestAttribute": "LoadTestName",
+                "caseSensitive": false,
+                "matchOnChildCalls": false,
+                "source": null
+            }
+        },
+        {
+            "attribute": "SERVICE_TAG",
+            "comparisonInfo": {
+                "type": "TAG",
+                "comparison": "TAG_KEY_EQUALS",
+                "value": {
+                    "context": "CONTEXTLESS",
+                    "key": "evalservice"
+                },
+                "negate": false
+            }
+        }
+    ],
+    "dimensionDefinition": {
+        "name": "Dimension",
+        "dimension": "{RequestAttribute:LoadTestName}",
+        "placeholders": [],
+        "topX": 100,
+        "topXDirection": "DESCENDING",
+        "topXAggregation": "AVERAGE"
+    }
+}

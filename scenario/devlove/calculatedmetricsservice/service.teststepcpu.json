@@ -1,0 +1,48 @@
+{
+    "tsmMetricKey": "calc:service.teststepcpu",
+    "name": "Test Step CPU",
+    "enabled": true,
+    "metricDefinition": {
+        "metric": "CPU_TIME",
+        "requestAttribute": null
+    },
+    "unit": "MICRO_SECOND",
+    "unitDisplayName": "",
+    "entityId": null,
+    "managementZones": [],
+    "conditions": [
+        {
+            "attribute": "SERVICE_REQUEST_ATTRIBUTE",
+            "comparisonInfo": {
+                "type": "STRING_REQUEST_ATTRIBUTE",
+                "comparison": "EXISTS",
+                "value": null,
+                "negate": false,
+                "requestAttribute": "TestStepName",
+                "caseSensitive": false,
+                "matchOnChildCalls": false,
+                "source": null
+            }
+        },
+        {
+            "attribute": "SERVICE_TAG",
+            "comparisonInfo": {
+                "type": "TAG",
+                "comparison": "TAG_KEY_EQUALS",
+                "value": {
+                    "context": "CONTEXTLESS",
+                    "key": "evalservice"
+                },
+                "negate": false
+            }
+        }
+    ],
+    "dimensionDefinition": {
+        "name": "Test Step",
+        "dimension": "{RequestAttribute:TestStepName}",
+        "placeholders": [],
+        "topX": 10,
+        "topXDirection": "DESCENDING",
+        "topXAggregation": "SUM"
+    }
+}

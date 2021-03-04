@@ -127,7 +127,8 @@ utilsInstall() {
   service docker start
   usermod -a -G docker $USER
   printInfo "Installation of Libraries for the Angular Loadtest to work on the system "
-  apt-get install libgtk-3-0 libxss1 libasound2 libgbm-dev
+  apt-get -y install libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6:amd64 libcairo2 libcups2 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libnss3 libxss1 xdg-utils  libminizip-dev  libgbm-dev libflac8
+
   printInfo "Installation of lates Java  "
   apt install -y default-jdk
 }
