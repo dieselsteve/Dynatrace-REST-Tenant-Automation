@@ -7,47 +7,60 @@
 # - Chromium for the Load generation of the EasyTravel Angular Shop
 # - EasyTravel, Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher 8094 / EasyTravel REST 8091 1697
 
-## Set TENANT and API TOKEN
+## Set DT_TENANT_URL and API TOKEN
 # ---- Define Dynatrace Environment ----
 # Sample: https://{your-domain}/e/{your-environment-id} for managed or https://{your-environment-id}.live.dynatrace.com for SaaS
+
 TENANT=
 PAASTOKEN=
 APITOKEN=
 
+
+DT_TENANT_URL=$TENANT
+DT_PAAS_TOKEN=$PAASTOKEN
+
+# Not used on this script ATM. Used before for installing the ActigeGate automatically
+DT_API_TOKEN=$APITOKEN
+
 # ==================================================
 #      ----- Variables Definitions -----           #
 # ==================================================
-LOGFILE='/tmp/install.log'
+LOGFILE='/tmp/install-easytravel.log'
 touch $LOGFILE
 chmod 775 $LOGFILE
 pipe_log=true
 
 USER="ubuntu"
 
+programname=$0
+
 # ---- Workshop User  ----
 # The flag 'create_workshop_user'=true is per default set to false. If it's set to to it'll clone the home directory from USER and allow SSH login with the given text password )
+create_workshop_user=false
 NEWUSER="dynatrace"
 NEWPWD="secr3t"
 
-## ----  Write all output to the logfile ----
-if [ "$pipe_log" = true ]; then
-  echo "Piping all output to logfile $LOGFILE"
-  echo "Type 'less +F $LOGFILE' for viewing the output of installation on realtime"
-  echo "If you did not send the job to the background, type \"CTRL + Z\" and \"bg\""
-  echo "CTRL + Z (for pausing this job)"
-  echo "then"
-  echo "bg (for resuming back this job and send it to the background)"
-  # Saves file descriptors so they can be restored to whatever they were before redirection or used
-  # themselves to output to whatever they were before the following redirect.
-  exec 3>&1 4>&2
-  # Restore file descriptors for particular signals. Not generally necessary since they should be restored when the sub-shell exits.
-  trap 'exec 2>&4 1>&3' 0 1 2 3
-  # Redirect stdout to file log.out then redirect stderr to stdout. Note that the order is important when you
-  # want them going to the same file. stdout must be redirected before stderr is redirected to stdout.
-  exec 1>$LOGFILE 2>&1
-else
-  echo "Not piping stdout stderr to the logfile, writing the installation to the console"
-fi
+pipeLog() {
+  ## ----  Write all output to the logfile ----
+  if [ "$pipe_log" = true ]; then
+    echo "Piping all output to logfile $LOGFILE"
+    echo "Type 'less +F $LOGFILE' for viewing the output of installation on realtime"
+    echo "If you did not send the job to the background, type \"CTRL + Z\" and \"bg\""
+    echo "CTRL + Z (for pausing this job)"
+    echo "then"
+    echo "bg (for resuming back this job and send it to the background)"
+    # Saves file descriptors so they can be restored to whatever they were before redirection or used
+    # themselves to output to whatever they were before the following redirect.
+    exec 3>&1 4>&2
+    # Restore file descriptors for particular signals. Not generally necessary since they should be restored when the sub-shell exits.
+    trap 'exec 2>&4 1>&3' 0 1 2 3
+    # Redirect stdout to file log.out then redirect stderr to stdout. Note that the order is important when you
+    # want them going to the same file. stdout must be redirected before stderr is redirected to stdout.
+    exec 1>$LOGFILE 2>&1
+  else
+    echo "Not piping stdout stderr to the logfile, writing the installation to the console"
+  fi
+}
 
 # Comfortable function for setting the sudo user.
 if [ -n "${SUDO_USER}" ]; then
@@ -100,15 +113,9 @@ validateSudo() {
 
 dynatracePrintValidateCredentials() {
   printInfoSection "Printing Dynatrace Credentials"
-  if [ -n "${TENANT}" ]; then
-    printInfo "Shuffle the variables for name convention with Dynatrace"
-    PROTOCOL="https://"
-    DT_TENANT=${TENANT#"$PROTOCOL"}
-    printInfo "Cleaned tenant=$DT_TENANT"
-    DT_API_TOKEN=$APITOKEN
-    DT_PAAS_TOKEN=$PAASTOKEN
+  if [ -n "${DT_TENANT_URL}" ]; then
     printInfo "-------------------------------"
-    printInfo "Dynatrace Tenant: $DT_TENANT"
+    printInfo "Dynatrace Tenant: $DT_TENANT_URL"
     printInfo "Dynatrace API Token: $DT_API_TOKEN"
     printInfo "Dynatrace PaaS Token: $DT_PAAS_TOKEN"
   else
@@ -127,7 +134,7 @@ utilsInstall() {
   service docker start
   usermod -a -G docker $USER
   printInfo "Installation of Libraries for the Angular Loadtest to work on the system "
-  apt-get -y install libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6:amd64 libcairo2 libcups2 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libnss3 libxss1 xdg-utils  libminizip-dev  libgbm-dev libflac8
+  apt-get -y install libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6:amd64 libcairo2 libcups2 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libnss3 libxss1 xdg-utils libminizip-dev libgbm-dev libflac8
 
   printInfo "Installation of lates Java  "
   apt install -y default-jdk
@@ -148,23 +155,25 @@ setupProAliases() {
 }
 
 installDynatrace() {
-  if [ -n "${TENANT}" ]; then
+  if [ -n "${DT_TENANT_URL}" ]; then
     printInfoSection "Installation of OneAgent"
-    wget -nv -O oneagent.sh "$TENANT/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$PAASTOKEN&arch=x86&flavor=default"
+    wget -nv -O oneagent.sh "$DT_TENANT_URL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default"
     sh oneagent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0
   fi
 }
 
 createWorkshopUser() {
-  printInfoSection "Creating Workshop User from user($USER) into($NEWUSER)"
-  homedirectory=$(eval echo ~$USER)
-  cp -R $homedirectory /home/$NEWUSER
-  useradd -s /bin/bash -d /home/$NEWUSER -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
-  usermod -a -G docker $NEWUSER
-  usermod -a -G microk8s $NEWUSER
-  printInfo "Warning: allowing SSH passwordAuthentication into the sshd_config"
-  sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-  service sshd restart
+  if [ "$create_workshop_user" = true ]; then
+    printInfoSection "Creating Workshop User from user($USER) into($NEWUSER)"
+    homedirectory=$(eval echo ~$USER)
+    cp -R $homedirectory /home/$NEWUSER
+    useradd -s /bin/bash -d /home/$NEWUSER -m -G sudo -p $(openssl passwd -1 $NEWPWD) $NEWUSER
+    usermod -a -G docker $NEWUSER
+    usermod -a -G microk8s $NEWUSER
+    printInfo "Warning: allowing SSH passwordAuthentication into the sshd_config"
+    sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    service sshd restart
+  fi
 }
 
 installBankjobs() {
@@ -173,10 +182,10 @@ installBankjobs() {
 
 }
 
-installReverseProxy(){
+installReverseProxy() {
   printInfoSection "Configuring reverse proxy"
   mkdir /home/$USER/nginx
-  # 
+  #
   echo "upstream angular {
     server   172.17.0.1:9080;
 }
@@ -211,11 +220,17 @@ server {
   docker run -p 80:80 -v /home/$USER/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
 }
 
+removeEasyTravel() {
+  printInfoSection "Remove EasyTravel"
+  rm -rf easytravel-2.0.0-x64
+}
+
 installEasyTravel() {
   printInfoSection "Download, install and configure EasyTravel"
   cd /home/$USER
   wget -nv -O dynatrace-easytravel-linux-x86_64.jar http://dexya6d9gs5s.cloudfront.net/latest/dynatrace-easytravel-linux-x86_64.jar
   java -jar dynatrace-easytravel-linux-x86_64.jar -y
+  rm dynatrace-easytravel-linux-x86_64.jar
   chmod 755 -R easytravel-2.0.0-x64
   chown $USER:$USER -R easytravel-2.0.0-x64
   printInfo "Configuring EasyTravel Memory Settings, Angular Shop and Weblauncher."
@@ -233,20 +248,14 @@ installEasyTravel() {
   sed -i 's/config.baseLoadIotDevicesRatio=0.1/config.baseLoadIotDevicesRatio=0/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
   sed -i 's/config.baseLoadHeadlessAngularRatio=0.0/config.baseLoadHeadlessAngularRatio=0.25/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
   sed -i 's/config.baseLoadHeadlessMobileAngularRatio=0.0/config.baseLoadHeadlessMobileAngularRatio=0.1/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-  sed -i 's/config.maximumChromeDrivers=10/config.maximumChromeDrivers=3/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-  sed -i 's/config.maximumChromeDriversMobile=10/config.maximumChromeDriversMobile=3/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-  sed -i 's/config.reUseChromeDriverFrequency=4/config.reUseChromeDriverFrequency=3/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+  sed -i 's/config.maximumChromeDrivers=10/config.maximumChromeDrivers=1/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+  sed -i 's/config.maximumChromeDriversMobile=10/config.maximumChromeDriversMobile=1/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+  sed -i 's/config.reUseChromeDriverFrequency=4/config.reUseChromeDriverFrequency=1/g' /home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
   #sed -i 's/config.angularFrontendPortRangeStart=9080/config.angularFrontendPortRangeStart=80/g' /easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-
-  # Fix finding the Java package
-  sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh
-
-  su -c "sh /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" $USER
-
-  [[ -f /tmp/weblauncher.log ]] && echo "***EasyTravel launched**" || echo "***Problem launching EasyTravel **"
+  
+  startAll
   date
   echo "installation done"
-
 }
 
 printInstalltime() {
@@ -255,12 +264,16 @@ printInstalltime() {
   printInfo "It took $(($DURATION / 60)) minutes and $(($DURATION % 60)) seconds"
 }
 
-restartAll(){
-  killall java; docker start reverseproxy bankjob; USER=ubuntu; su -c "sh /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" $USER
-
+startAll() {
+  printInfoSection "Start EasyTravel and docker Containers"
+  docker start reverseproxy bankjob
+  sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh
+  su -c "sh /home/$USER/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" $USER
+  [[ -f /tmp/weblauncher.log ]] && echo "***EasyTravel launched**" || echo "***Problem launching EasyTravel **"
 }
 
 doInstallation() {
+  pipeLog
   SECONDS=0
   echo ""
   printInfoSection "Init Installation at $(date) by user $(whoami)"
@@ -280,7 +293,69 @@ doInstallation() {
   printInstalltime
 }
 
-# ==================================================
+killEasyTravel() {
+  printInfoSection "Kill all EasyTravel Processes"
+  killall java
+  ps -ef | grep -i easytravel | awk '{print "sudo kill -9 "$2}' | sh
+  printInfo "done killing all EasyTravel Processes"
+}
+
+upgradeEasyTravel() {
+  printInfoSection "Upgrade EasyTravel"
+  removeEasyTravel
+  installEasyTravel
+}
+
+printUsage() {
+  printInfoSection "usage: $programname [-ukswhi] "
+  printInfo "  -u      upgrade EasyTravel"
+  printInfo "  -k      kill all processes EasyTravel"
+  printInfo "  -s      start EasyTravel and Docker Containers"
+  printInfo "  -w      create workshop user"
+  printInfo "  -h      print this help"
+  printInfo "  -i      install EasyTravel and OneAgent in interactive mode (no pipelog)"
+  printInfo "          no parameters install EasyTravel and OneAgent"
+}
+
+while getopts ":ukswhi" opt; do
+  case $opt in
+  u)
+    upgradeEasyTravel
+    exit 0
+    ;;
+  k)
+    killEasyTravel
+    exit 0
+    ;;
+  s)
+    startAll
+    exit 0
+    ;;
+  i)
+    pipe_log=false
+    doInstallation
+    exit 0
+    ;;
+  w)
+    create_workshop_user=true
+    createWorkshopUser
+    exit 0
+    ;;
+  h)
+    printUsage
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    printUsage
+    echo "exiting..."
+    exit 1
+    ;;
+  esac
+done
+
+# =================================================
 #  ----- Call the Installation Function -----      #
 # ==================================================
+printUsage
 doInstallation
