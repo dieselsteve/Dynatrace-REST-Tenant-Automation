@@ -10,17 +10,11 @@
 ## Set DT_TENANT_URL and API TOKEN
 # ---- Define Dynatrace Environment ----
 # Sample: https://{your-domain}/e/{your-environment-id} for managed or https://{your-environment-id}.live.dynatrace.com for SaaS
-
 TENANT=
 PAASTOKEN=
-APITOKEN=
-
-
-DT_TENANT_URL=$TENANT
-DT_PAAS_TOKEN=$PAASTOKEN
 
 # Not used on this script ATM. Used before for installing the ActigeGate automatically
-DT_API_TOKEN=$APITOKEN
+APITOKEN=
 
 # For 3rd party server (images, cdn...). by default it takes the public IP
 DOMAIN=
@@ -115,11 +109,11 @@ validateSudo() {
 
 dynatracePrintValidateCredentials() {
   printInfoSection "Printing Dynatrace Credentials"
-  if [ -n "${DT_TENANT_URL}" ]; then
+  if [ -n "${TENANT}" ]; then
     printInfo "-------------------------------"
-    printInfo "Dynatrace Tenant: $DT_TENANT_URL"
-    printInfo "Dynatrace API Token: $DT_API_TOKEN"
-    printInfo "Dynatrace PaaS Token: $DT_PAAS_TOKEN"
+    printInfo "Dynatrace Tenant: $TENANT"
+    printInfo "Dynatrace API Token: $APITOKEN"
+    printInfo "Dynatrace PaaS Token: $PAASTOKEN"
   else
     printInfoSection "Dynatrace Variables not set, Dynatrace wont be installed"
   fi
@@ -154,20 +148,20 @@ setupProAliases() {
   printInfoSection "Adding Bash and Kubectl Pro CLI aliases to .bash_aliases for user ubuntu and root "
   echo "
       # Alias for ease of use of the CLI
-      alias las='ls -las' 
-      alias hg='history | grep' 
-      alias h='history' 
-      alias vaml='vi -c \"set syntax:yaml\" -' 
-      alias vson='vi -c \"set syntax:json\" -' 
+      alias las='ls -las'
+      alias hg='history | grep'
+      alias h='history'
+      alias vaml='vi -c \"set syntax:yaml\" -'
+      alias vson='vi -c \"set syntax:json\" -'
       alias pg='ps -aux | grep' " >/root/.bash_aliases
   homedir=$(eval echo ~$USER)
   cp /root/.bash_aliases $homedir/.bash_aliases
 }
 
 installDynatrace() {
-  if [ -n "${DT_TENANT_URL}" ]; then
+  if [ -n "${TENANT}" ]; then
     printInfoSection "Installation of OneAgent"
-    wget -nv -O oneagent.sh "$DT_TENANT_URL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default"
+    wget -nv -O oneagent.sh "$TENANT/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$PAASTOKEN&arch=x86&flavor=default"
     sh oneagent.sh --set-app-log-content-access=true --set-system-logs-access-enabled=true --set-infra-only=false --set-host-name=easytravel.staging
   fi
 }
@@ -214,12 +208,12 @@ upstream 3rdparty {
 }
 
 server {
-    listen		0.0.0.0:80;
+    listen              0.0.0.0:80;
     # By default we show EasyTravel Angular
-    server_name	localhost;
-    
+    server_name localhost;
+
     location / {
-      proxy_pass	http://angular/;
+      proxy_pass        http://angular/;
       proxy_pass_request_headers  on;
       proxy_set_header   Host $host;
     }
@@ -231,7 +225,7 @@ server {
         server_name classic.*;
 
         location / {
-          proxy_pass	http://classic/;
+          proxy_pass    http://classic/;
           proxy_pass_request_headers  on;
           proxy_set_header   Host $host;
         }
@@ -242,7 +236,7 @@ server {
         listen [::]:80;
         server_name admin.*;
         location / {
-          proxy_pass	http://admin/;
+          proxy_pass    http://admin/;
           proxy_pass_request_headers  on;
           proxy_set_header   Host $host;
         }
@@ -253,7 +247,7 @@ server {
         listen [::]:80;
         server_name rest.*;
         location / {
-          proxy_pass	http://rest/;
+          proxy_pass    http://rest/;
           proxy_pass_request_headers  on;
           proxy_set_header   Host $host;
         }
@@ -265,7 +259,7 @@ server {
         # By default we show EasyTravel Angular
         server_name amp.*;
         location / {
-          proxy_pass	http://classic/amp/;
+          proxy_pass    http://classic/amp/;
           proxy_pass_request_headers  on;
           proxy_set_header   Host $host;
         }
@@ -278,7 +272,7 @@ server {
         server_name social.*;
         server_name 3rdparty.*;
         location / {
-          proxy_pass	http://3rdparty/;
+          proxy_pass    http://3rdparty/;
           proxy_pass_request_headers  on;
           proxy_set_header   Host $host;
         }
@@ -308,7 +302,7 @@ setupMagicDomainPublicIp() {
 installEasyTravel() {
   printInfoSection "Download, install and configure EasyTravel"
   cd /home/$USER
-  wget -nv -O dynatrace-easytravel-linux-x86_64.jar http://dexya6d9gs5s.cloudfront.net/latest/dynatrace-easytravel-linux-x86_64.jar
+  wget -nv -O dynatrace-easytravel-linux-x86_64.jar https://etinstallers.demoability.dynatracelabs.com/latest/dynatrace-easytravel-linux-x86_64.jar
   java -jar dynatrace-easytravel-linux-x86_64.jar -y
   rm dynatrace-easytravel-linux-x86_64.jar
   chmod 755 -R easytravel-2.0.0-x64
@@ -317,7 +311,7 @@ installEasyTravel() {
   # Config File
   ETCONFIG=/home/$USER/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
   printInfo "This is the configuration file: $ETCONFIG"
-  
+
   setupMagicDomainPublicIp
   printInfo "This is the DOMAIN: $DOMAIN"
 
@@ -339,12 +333,12 @@ installEasyTravel() {
   sed -i 's,config.maximumChromeDrivers=.*,config.maximumChromeDrivers=1,g' $ETCONFIG
   sed -i 's,config.maximumChromeDriversMobile=.*,config.maximumChromeDriversMobile=1,g' $ETCONFIG
   sed -i 's,config.reUseChromeDriverFrequency=.*,config.reUseChromeDriverFrequency=1,g' $ETCONFIG
-  
+
   # Setting up 3rd party Domain
   sed -i 's,config.thirdpartyUrl=.*,config.thirdpartyUrl=http://3rdparty.'"$DOMAIN"',g' $ETCONFIG
   sed -i 's,config.thirdpartyCdnUrl=.*,config.thirdpartyCdnUrl=http://cdn.'"$DOMAIN"',g' $ETCONFIG
   sed -i 's,config.thirdpartySocialMediaUrl=.*,config.thirdpartySocialMediaUrl=http://social.'"$DOMAIN"',g' $ETCONFIG
-  
+
   startAll
   date
   echo "installation done"

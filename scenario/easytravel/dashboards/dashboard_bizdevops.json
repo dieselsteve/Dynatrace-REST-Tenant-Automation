@@ -1,6 +1,7 @@
 {
   "dashboardMetadata": {
     "name": "BizDevOps Dashboard 💵🎯",
+    "owner": "email.key",
     "shared": true,
     "sharingDetails": {
       "linkShared": true,

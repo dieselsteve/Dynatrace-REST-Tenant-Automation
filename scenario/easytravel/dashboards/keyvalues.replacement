@@ -1,6 +1,7 @@
 {
   "firstName.key": "firstName",
   "lastName.key": "lastName",
+  "email.key": "email",
   "nipioDomain.key": "nipioDomain",
   "sshUser.key": "sshUser",
   "sshPassword.key": "sshPassword",

@@ -1,6 +1,7 @@
 {
   "dashboardMetadata": {
     "name": "🩺💻 Hello firstName.key lastName.key! Welcome to the Dynatrace Workshop 🔬",
+    "owner": "email.key",
     "shared": true,
     "sharingDetails": {
       "linkShared": true,
